@@ -1,0 +1,6 @@
+$out_root/
+{
+  include codecov-test/
+}
+
+export $out_root/codecov-test/$import.target

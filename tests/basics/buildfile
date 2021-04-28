@@ -1,0 +1,37 @@
+import libs = codecov-test%lib{codecov-test}
+
+assert($cxx.class == 'gcc')
+
+./: cov{codecov}
+
+# <{exe gcno gcda}{driver}>: {hxx ixx txx cxx}{**} $libs
+<{exe gcno}{driver}>: {hxx ixx txx cxx}{**} $libs
+
+cxx.coptions += --coverage -g -fprofile-abs-path
+cxx.loptions += --coverage -fprofile-arcs
+
+import! lcov = lcov%exe{lcov}
+import! genhtml = genhtml%exe{genhtml}
+
+# codecov_test_src = $regex.replace($directory($libs), '//', '////')
+codecov_test_src = $regex.replace($src_root/../codecov-test, '//', '////')
+# info codecov_test_src = $codecov_test_src
+
+
+driver = exe{driver}
+
+<{cov html}{codecov} gcda{driver}>: {exe gcno}{driver} $lcov $genhtml
+% update
+{{
+  diag lcov+genhtml ($<[0])
+  $driver
+  $lcov -c -d $out_base -b $codecov_test_src --no-external -o $path($>[0])
+  # $genhtml $path($>[0]) -o $out_base/codecov
+  $genhtml $path($>[0]) -o $path($>[1])
+}}
+% clean
+{{
+  diag rm codecov
+  # rm -rf $path($>[0]) $out_base/codecov $path($>[2])
+  rm -rf $path($>[0]) $path($>[1]) $path($>[2])
+}}

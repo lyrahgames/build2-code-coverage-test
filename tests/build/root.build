@@ -1,0 +1,40 @@
+cxx.std = latest
+
+using cxx
+
+hxx{*}: extension = hpp
+ixx{*}: extension = ipp
+txx{*}: extension = tpp
+cxx{*}: extension = cpp
+
+# Every exe{} in this subproject is by default a test.
+#
+exe{*}: test = true
+
+# The test target for cross-testing (running tests under Wine, etc).
+#
+test.target = $cxx.target
+
+
+define gcno: file
+gcno{*}:
+{
+  extension = gcno
+  backlink = false
+}
+
+define gcda: file
+gcda{*}:
+{
+  extension = gcda
+  backlink = false
+}
+
+define cov: file
+cov{*}: extension = info
+
+define html: file
+html{*}:
+{
+  extension =
+}

@@ -1,0 +1,11 @@
+: 1
+name: codecov-test
+version: 0.1.0-a.0.z
+summary: codecov-test C++ library
+license: other: proprietary ; Not free/open source.
+description-file: README.md
+url: https://example.org/codecov-test
+email: lyrahgames@mailbox.org
+depends: * build2 >= 0.13.0
+depends: * bpkg >= 0.13.0
+#depends: libhello ^1.0.0

@@ -1,0 +1,3 @@
+# codecov-test
+
+C++ library
